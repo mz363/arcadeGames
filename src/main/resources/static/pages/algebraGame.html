@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			.countDown {
+			  text-align: center;
+			  font-size: 30px;
+			  margin-top: 0px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<h1>Algebra Game</h1>
+
+		<p>The onclick event is used to trigger a function when an element is clicked on.</p>
+
+		<p>Click the button to trigger a function that will output "Hello World" in a p element with id="demo".</p>
+
+		<p class="countDown">Time Left: <span id="timer"></span></p>
+
+		<h3>Score: <span id="score"></span></h3>
+
+		<h4 id="message"></h4>
+
+		<button id="startGame" onclick="generateEquationEasy(); timer();">Start Game</button>
+
+		<form id="algebraGame" style="display: none;">
+			<label id="question"></label><br>
+
+			<label id="aLabel"></label>
+			<input type="radio" id="A" name="answer"><br>
+			<label id="bLabel"></label>
+			<input type="radio" id="B" name="answer"><br>
+			<label id="cLabel"></label>
+			<input type="radio" id="C" name="answer"><br>
+			<label id="dLabel"></label>
+			<input type="radio" id="D" name="answer"><br>
+			<input type="submit" value="Submit" onclick="isCorrect(); return false;">
+		</form>
+
+        <a href="/userPage">
+            <button>
+                Back to HomePage                                    
+            </button>                                       
+        </a>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="../js/algebraGame.js"></script>
+
+
+	</body>
+</html>
