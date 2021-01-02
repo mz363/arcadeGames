@@ -1,23 +1,30 @@
 package com.mz363.arcadegames.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/")
 public class PageController {
 
-    @RequestMapping("/signup")
-    public String signup() {
-        return "pages/signup.html";
+    @GetMapping("login")
+    public String getLogin() {
+        return "login";
     }
 
-    @RequestMapping("/userPage")
-    public String userPage() {
-        return "pages/userPage.html";
+    @GetMapping("register")
+    public String getRegister() {
+        return "register";
     }
 
-    @RequestMapping("/algebraGame")
-    public String algebraGame() {
-        return "pages/algebraGame.html";
+    @GetMapping("userPage")
+    public String getUserPage() {
+        return "userPage";
+    }
+
+    @RequestMapping("algebraGame")
+    public String getAlgebraGame() {
+        return "algebraGame";
     }
 }
