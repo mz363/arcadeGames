@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 import static com.mz363.arcadegames.security.ApplicationUserRoles.*;
@@ -31,6 +32,14 @@ public class ApplicationUserController {
         this.applicationUserDao = applicationUserDao;
     }
 
+    @GetMapping("/currentUser")
+    public ResponseEntity<ApplicationUser> getCurrentUsername(Principal principal) throws ResourceNotFoundException {
+        logger.info("Getting current user " + principal.getName());
+        ApplicationUser applicationUser = applicationUserDao.findByUsername(principal.getName()).
+                orElseThrow(() -> new ResourceNotFoundException("ApplicationUser not found for this user:: " + principal.getName()));
+        return ResponseEntity.ok().body(applicationUser);
+    }
+
     @GetMapping("/applicationUsers")
     public List<ApplicationUser> getAllUsers() {
         logger.info("Get all the users...");
@@ -47,21 +56,28 @@ public class ApplicationUserController {
     }
 
     @PostMapping("/newUser")
-    public ApplicationUser createApplicationUser(@Valid @RequestBody ApplicationUser applicationUser) {
-        ApplicationUser saveApplicationUser =
-                new ApplicationUser(
-                        applicationUser.getId(),
-                        applicationUser.getUsername(),
-                        passwordEncoder.encode(applicationUser.getPassword()),
-                        applicationUser.getRole(),
-                        ApplicationUserRoles.valueOf(applicationUser.getRole()).getGrantedAuthorities(),
-                        true,
-                        true,
-                        true,
-                        true
-                );
-        logger.info("Insert applicationUser..." + applicationUser.getPassword());
-        return applicationUserDao.save(saveApplicationUser);
+    public boolean createApplicationUser(@Valid @RequestBody ApplicationUser applicationUser) {
+        boolean existsApplicationUser = applicationUserDao.findByUsername(applicationUser.getUsername()).isPresent();
+
+        if(!existsApplicationUser) {
+            ApplicationUser saveApplicationUser =
+                    new ApplicationUser(
+                            applicationUser.getId(),
+                            applicationUser.getUsername(),
+                            passwordEncoder.encode(applicationUser.getPassword()),
+                            applicationUser.getRole(),
+                            ApplicationUserRoles.valueOf(applicationUser.getRole()).getGrantedAuthorities(),
+                            true,
+                            true,
+                            true,
+                            true
+                    );
+            logger.info("Insert applicationUser..." + applicationUser.getUsername());
+            applicationUserDao.save(saveApplicationUser);
+            return true;
+        }
+        logger.info("applicationUser already exists..." + applicationUser.getUsername());
+        return false;
     }
 
 //    @PutMapping("/applicationUser/{id}")
