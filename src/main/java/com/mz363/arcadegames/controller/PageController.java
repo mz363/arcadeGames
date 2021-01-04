@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class PageController {
 
+    @GetMapping("")
+    public String getIndex() {
+        return "index";
+    }
+
     @GetMapping("login")
     public String getLogin() {
         return "login";
