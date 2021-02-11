@@ -43,7 +43,7 @@ public class ApplicationUserService implements UserDetailsService {
         boolean userExists = selectApplicationUserByUsername(username).isPresent();
         if(userExists) {
             logger.info("User Exists");
-
+            //.get() gets the application user form Optional<ApplicationUser>
             ApplicationUser selectedApplicationUser = selectApplicationUserByUsername(username).get();
             ApplicationUser applicationUser =
                     new ApplicationUser(

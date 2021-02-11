@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin("*")
 public class PlayerController {
 
     private static final Logger logger = LoggerFactory.getLogger(ArcadeGamesApplication.class);
